@@ -1,0 +1,91 @@
+\chapter{\selectlanguage{greek}Κώδικες Επανάληψης-Συσσώρευσης \en{(repeat - accumulate, RA)}}
+\externaldocument{chapter1.tex}
+\externaldocument{chapter2.tex}
+Στο κεφάλαιο αυτό, παρουσιάζονται οι κώδικες Επανάληψης-Συσσώρευσης \en{(repeat - accumulate, RA)}, η μελέτη της επίδοσης των οποίων αποτελεί και το αντικείμενο της παρούσας εργασίας. Επισημαίνεται πως το κανάλι μετάδοσης είναι διακριτό \en{AWGN} κανάλι και πως το σώμα που υποθέτουμε είναι το $\mathbb{F}_2$.
+
+Οι \en{RA} αποτελούν τους πρώτους κώδικες που βασίζονται σε συσσωρευτές και εφευρέθηκαν από τον \en{D. Divsalar} κ.ά. \cite{divsalar1998coding}. Ενώ έχουν απλή δομή, δακρίνονται από καλές επιδόσεις, κυρίως στην κατεύθυνση της πρακτικής κωδικοποίησης \en{LDPC} κωδίκων, των οποίων αποτελούν υποομάδα. Η αποκωδικοποίησή τους μπορεί να αντιμετωπισθεί είτε ως σειριακή \en{turbo}, είτε ως \en{LDPC}, τακτική που είναι και πιο ευρέως διαδεδομένη \cite{ryan2009channel}.
+
+Στη συνέχεια του κεφαλαίου παρουσιάζονται οι κώδικες που μπορούν να πλησιάσουν το θεωρητικό όριο χωρητικότητας που επιβάλει το θεώρημα \en{Shannon} (Θεώρημα \ref{theorem:shannon}), διατηρώντας τη δυνατότητα πρακτικής αποκωδικοποίησης. Αφού γίνει μια σύντομη αναφορά στη σχέση χωρητικότητας και σηματοθορυβικής σχέσης (\en{SNR}), παρουσιάζονται οι τρόποι διαχείρησης των \en{RA}, είτε ως \en{turbo}, είτε ως \en{LDPC}. Κατόπιν αφού αναλυθεί ο τρόπος κωδικοποίησης των \en{LDPC} (ως τον πιο συχνά χρησιμοποιούμενο τρόπο αντιμετώπισης των \en{RA}), διατυπώνεται πλήρως το \en{coding scheme} των \en{RA}, που δίνει και τη βάση πάνω στην οποία στηρίζεται η προσομοίωση που έγινε και θα αναλυθεί στο Κεφάλαιο 4.
+
+\section{Κώδικες που πλησιάζουν τη χωρητικότητα}
+\en{\lipsum[1]}
+
+\subsection{Η χωρητικότητα ως \en{SNR}}
+% Έστω τηλεπικοινωνιακό σύστημα, με ζωνοπερατό κανάλι, εύρους ζώνης $W$, που εισάγει \en{AWGN} θόρυβο, με φασματική πυκνότητα ισχύος $N_0/2$. Η χωρητικότητα καναλιού αποδεικνύεται ότι μπορεί να οριστεί από την παρακάτω εξίσωση (Θεώρημα \en{Shannon - Hartley}):
+
+% \begin{equation}
+% C=W\cdot log_2(1+ \frac{S}{N})
+% \label{eq:capacity}
+% \end{equation}
+% όπου, $S$ η λαμβανόμενη ισχύς του μεταδιδόμενου σήματος στο δέκτη, $N$ η ισχύς θορύβου και $W$ το εύρος ζώνης του καναλιού. Η ισχύς του θορύβου δίνεται από τη σχέση:
+
+% \begin{equation}
+% N = \int_{-W}^{W}\frac{N_0}{2}\,df=N_0\cdot{W}.
+% \label{eq:Noise}
+% \end{equation}
+% ,ενώ η συματοθορυβική σχέση του συστήματος (\en{signal-to-noise ratio - SNR}) ορίζεται ως:
+
+% \begin{equation}
+% SNR=\frac{S}{N}
+% \label{eq:SNR}
+% \end{equation}
+
+% Από τις \ref{eq:capacity} και \ref{eq:SNR} και κανονικοποιώντας ως προς το εύρος ζώνης $W$, προκύπτει:
+
+% \begin{equation}
+% C=log_2(1+SNR)
+% \label{eq:capacity vs SNR}
+% \end{equation}
+\en{\lipsum[1]}
+\section{\en{RA} ιδωμένοι ως \en{turbo}}
+\en{\lipsum[1]}
+\section{\en{RA} ιδωμένοι ως \en{LDPC}}
+\en{\lipsum[1]}
+% We shall consider only binary LDPC codes for the sake of simplicity, although
+% LDPC codes can be generalized to nonbinary alphabets as is done in Chapter
+% 14. A low-density parity-check code is a linear block code given by the null spaceof an m × n parity-check matrix H that has a low density of 1s. A regular LDPC
+% code is a linear block code whose parity-check matrix H has column weight g and
+% row weight r, where r = g(n/m) and g  m. If H is low density, but its row and
+% column weight are not both constant, then the code is an irregular LDPC code.
+% For irregular LDPC codes, the various row and column weights are determined by
+% one of the code-design procedures discussed in subsequent chapters. For reasons
+% that will become apparent later, almost all LDPC code constructions impose the
+% following additional structural property on H: no two rows (or two columns) have
+% more than one position in common that contains a nonzero element. This property
+% is called the row–column constraint, or simply, the RC constraint.
+% The descriptor “low density” is unavoidably vague and cannot be precisely
+% quantified, although a density of 0.01 or lower can be called low density (1% or
+% fewer of the entries of H are 1s). As will be seen later in this chapter, the density
+% need only be sufficiently low to permit effective iterative decoding.
+
+
+\subsection{Κωδικοποίηση \en{LDPC}}
+\en{\lipsum[1]}
+\subsection{Κωδικοποίηση \en{RA}}
+\en{\lipsum[1]}
+\subsection{Αποκωδικοποίηση \en{RA}}
+\en{\lipsum[1]}
+
+
+
+
+
+
+
+% \begin{itemize}
+
+% \item ο κωδικοποιητής πρέπει να αποθηκεύσει $2^k$ κωδικές λέξεις μήκους $n$ σε ένα \
+% enquote*{κωδικό λεξικό} (η πολυπλοκότητα περιγραφής του κώδικα είναι εκθετική ως προς το \en{n})
+
+
+% \item ο κωδικοποιητής πρέπει, επιπλέον, να αποθηκεύσει την αντιστοίχιση μεταξύ των μηνυμάτων και των κωδικών λέξεων
+
+
+% \item ο αποκωδικοποιητής πρέπει μετά την απόφασή του για την αποσταλθείσα κωδική λέξη, να αναζητήσει στο προηγούμενο λεξικό, 
+% το μήνυμα που της αντιστοιχεί.
+% \
+
+% end{itemize}
+
+
+
