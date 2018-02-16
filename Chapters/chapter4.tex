@@ -1,4 +1,5 @@
 \chapter{\selectlanguage{greek}Προσομοίωση \en{DVB-S2 RA} κώδικα σε κανάλι \en{AWGN}}
+\externaldocument{chapter3.tex}
 Στο κεφάλαιο αυτό, θα παρουσιαστεί ο δέκτης που προσομοιώθηκε και τα αποτελέσματα της προσομοίωσης σε καμπύλες \en{BER} για τους διάφορους ρυθμούς που έχουν προτυποποιηθεί για την ψηφιακή τηλεόραση δεύτερης γενιάς (\en{DVB-S/T2}).
 
 Αρχικά παρουσιάζεται συνοπτικά η διαμόρφωση \en{QPSK} και κατόπιν η διαδικασία αποδιαμόρφωσης (\en{demapping}), μέσω ων έτοιμων συναρτήσεων που παρέχονται από το \en{MATLAB}, καθώς και μέσω ενός \en{A-Posteriori Probability (APP) demapper} που προγραμματίστηκε για το σκοπό αυτό. Στη συνέχεια παρουσιάζεται το σύνολο της προσομοίωσης και στο τέλος του κεφαλαίου, τα αποτελέσματά της.
@@ -96,8 +97,8 @@ L(x_{ij})=\ln\frac{\sum \nolimits_{\mathbf{s}\in{S}_0^j}\exp\left\{\frac{y_{iI}s
 
 \section{Προσομοίωση στο \en{Matlab}}
 % \selectlanguage{english}
-% \lstinputlisting{spa9.m}
-% \selectlanguage{greek}
+% {spa9.m}
+% 
 \begin{table}[h]
 \centering
 \begin{tabular}
@@ -118,5 +119,125 @@ L(x_{ij})=\ln\frac{\sum \nolimits_{\mathbf{s}\in{S}_0^j}\exp\left\{\frac{y_{iI}s
 
 Στον πίνακα \ref{table: EbN0 limits}, φαίνεται το (θεωρητικό) κάτω όριο $E_b/N_0$ για τον κάθε ρυθμό κώδικα που προσομοιώνεται, το οποίο καλείται \textit{όριο κωδικοποίησης} και αντιστοιχεί σε διαμόρφωση \en{BPSK} ή \en{QPSK}. Η χωρητικότητα, όπως εκφράζεται από τα παραπάνω όρια για δεδομένο ρυθμό \en{R}, δίνει ένα κατώφλι \en{SNR} μετά από το οποίο και με τη χρήση κωδικοποίησης καναλιού, μπορεί να επιτευχθεί -θεωρητικά- αξιόπιστη επικοινωνία, σε διαφορετική περίπτωση η αξιοπιστία της οποίας είναι μη ελέγξιμη.
 
+Για να υλοποιηθεί προσομοίωση στο \en{Matlab} μεταβάλλεται η μεταβλητή \en{R} η οποία αποθηκεύει το ρυθμό του κώδικα και ορίζεται ο \en{LDPC} κώδικας με βάση τον πίνακα $\mathbf{H}$. Κατόπιν αρχικοποιούνται τα αντικείμενα που ορίζουν τις παραμέτρους της διαμόρφωσης-αποδιαμόρφωσης και κωδικοποίησης-αποκωδικοποίησης. Ωστόσο, η συνάρτηση \en{demod} δε χρησιμοποιείται, καθώς για τη συγκεκριμένη προσομοίωση γίνεται χρήση του \en{APP demapper} που περιγράφηκε στην προηγούμενη παράγραφο του κεφαλαίου.
+
+\tl{\lstinputlisting{def.m}}
+\tl{\lstinputlisting{encdec.m}}
+\tl{\lstinputlisting{moddemod.m}}
+
+Η κωδικοποίηση γίνεται σύμφωνα με όσα αναφέρθηκαν στο Κεφάλαιο 3 και ακολουθεί την συστηματική \en{LDPC}, σύμφωνα με το πρότυπο \en{Digital Video Broadcasting \& Satellite - Second Generation (DVB-S2)} \cite{etsi2009302}. Όπως φαίνεται από το παραπάνω κομμάτι κώδικα, το αντικείμενο \textit{\en{enc}} αρχικοποιείται με βάσει τον πίνακα ελέγου ισοτιμίας για δεδομένο ρυθμό κώδικα. Διακρίνεται από τα εξής βήαματα:
+
+\begin{itemize}
+\item Αρχικοποίηση των \en{parity bits}: $p_0=p_1=\cdots=p_{n-k-1}=0$
+\item Συσσώρευση του πρώτου \en{info bit} στις διευθύνσεις που δίνονται από την πρώτη γραμμή των πινάκων \en{B.1} έως \en{B.11} του παραρτήματος Β στο πρότυπο \en{ETSI} για το \en{DVB-S2} \cite{etsi2009302}, με \en{mod}-2 πρόσθεση.
+\item Για τα επόμενα 359 \en{info bits} οι διευθύνσεις των συσσωρευτών δίνονται από τον τύπο $\lbrace x+\left(m\; mod\; 360\right) \times q\rbrace mod \left(n-k\right)$, όπου $m=1,2,\cdots,359$, το $x$ αντιστοιχεί στη διεύθυνση συσσωρρευτή του πρώτου \en{info bit} και το $q$ δίνεται από τον Πίνακα \ref{table:q values}
+\item Αντίστοιχα, για κάθε επόμενο \en{group} από 360 \en{info bits} χρησιμοποιείται μια καινούργια γραμμή διευθύνσεων στους πίνακες \en{B.1} έως \en{B.11} του παραρτήματος Β του \cite{etsi2009302}
+\item Με την εξάντληση των \en{info bits}, τα τελικά \en{parity bits} $p_i$ δίνονται ως εξής:
+\begin{equation*}
+p_0 = p_0
+\end{equation*}
+\begin{equation*}
+p_i = p_i \oplus p_{i-1},\;\;i=1,2,\cdots,n-k
+\end{equation*}
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\begin{tabular}
+{>{\bfseries}c*{2}{c}}\toprule\toprule{\en{Code Rate}} & {$q$}\\ \midrule
+1/4&135\\
+1/3&120\\
+2/5&108\\
+1/2&90\\
+3/5&72\\
+2/3&60\\
+3/4&45\\
+4/5&36\\
+9/10&18\\ \bottomrule\bottomrule
+\end{tabular}
+\caption{Τιμές $q$ για τους διάφορους ρυθμούς κωδικοποίησης \en{RA}}
+\label{table:q values}
+\end{table}
+
+Αντίστοιχα η αποκωδικοποίηση στηρίζεται στην εφαρμογή του \en{SPA} αλγορίθμου για \en{LDPC} και ακολουθεί την παρακάτω πορεία:
+
+\begin{itemize}
+\item Η αρχικοποίηση των $L_j$ γινεται μέσω της σχέσης \ref{eq:AWGN initial LLR}
+\item Τα μηνύματα που εξέρχονται απο τους \en{CN} υπολογίζονται από την εξίσωση 
+\begin{equation}
+L_{i\to j} = 2\tanh^{-1} \left( \prod_{j'\in N(i)-\lbrace j\rbrace} \tanh \left( \frac{1}{2}L_{j'\to i} \right)\right)
+\end{equation}
+και κατόπιν μεταδίδονται στους \en{VN}
+\item Τα μηνύματα που εξέρχονται απο τους \en{VN} υπολογίζονται από την εξίσωση
+\begin{equation*}
+L_{j\to i} = L_j + \sum_{i'\in N(j)-\lbrace i\rbrace} L_{i'\to j}
+\end{equation*}
+και κατόπιν μεταδίδονται στους \en{CN}
+\item Τα συνολικα \en{LLR} υπολογίζονται από τη σχέση
+\begin{equation*}
+L_{j}^{total} = L_j + \sum_{i\in N(j)} L_{i\to j}
+\end{equation*}
+\item Για $j=0,1,\cdots,n-1$ υπολογίζονται οι τιμές των \en{bit}
+\begin{equation*}
+\hat{v_j}=\left\{
+\begin{array}{c l}	
+     1 & L_{j}^{total}<0\\
+     0 & else
+\end{array}\right.
+\end{equation*}
+που διαμορφώνουν την $\hat{\mathbf{v}}$. Αν $\hat{\mathbf{v}}\mathbf{Η}=\mathbf{0}$, ο αλγόριθμος τερματίζει, αλλιώς συνεχίζει με την επόμενη επανάληψη.
+\item Στο τέλος της προσομοίωσης υπολογίζονται οι μετρικές \en{BER} και \en{FER} για την προσομοίωση του εκάστοτε ρυθμού στο αντίστοιχο \en{SNR}
+\end{itemize}
+
+
+Η προσομοίωση έχει ως όριο τα $10^3$ σφάλματα ή τις $10^6$ προσπάθειες (\en{trials}) να εντοπιστούν. Τα αποτελέσματα που θα παρουσιαστούν, λαμβάνονται αφού αποθηκευτούν για κάθε ρυθμό το \en{Bit Error Rate - BER} και το \en{Frame Error Rate - FER}. Επίσης αποθηκεύεται ο απόλυτος αριθμός σφαλμάτων και ο αριθμός \en{trials} που χρειάστηκαν, για το συγκεκριμένο \en{SNR}.
+
 \section{Αποτελέσματα}
-Σε αυτή την ενότητα παρουσιάζονται τα αποτελέσματα. Ταυτόχρονα με τη συγγραφή του Κεφαλαίου 3, θα ανανεώνεται και αυτή η παράγραφος με διαγράμματα.
+
+Σε αυτό το σημείο παρουσιάζονται τα αποτελέσματα της προσομοίωσης. Τα διαγράμματα που ακολουθούν απεικονίζουν για κάθε ρυθμό του Πίνακα \ref{table: EbN0 limits} τις τιμές του \en{BER}, ξεκινώντας από την τιμή $Eb/N0$ του Πίνακα \ref{table: EbN0 limits} (θεωρητικό όριο χωρητικότητας για κάθε ρυθμό) και καταλήγοντας στη τιμή $Eb/N0$, για την οποία το \en{BER} φτάνει στο $10^{-8}$. Στό ίδιο διάγραμμα απεικονίζεται και η καμπύλη του \en{FER} για τις αντίστοιχες τιμές $Eb/N0$. Στο τέλος, δίνεται επίσης ένα συγκριτικό διάγραμμα όλων των καμπυλών \en{BER} και \en{FER}, για καλύτερη εποπτεία των αποτελεσμάτων των διαφόρων ρυθμών.
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/1-4.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 1/4}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/1-3.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 1/3}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/2-5.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 2/5}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/1-2.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 1/2}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/3-5.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 3/5}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/2-3.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 2/3}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/3-4.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 3/4}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/4-5.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 4/5}
+\end{figure}
+\begin{figure}[h]
+\center{\includegraphics[width=0.75\linewidth]{matlab/9-10.png}}
+\caption{\en{BER},\en{FER vs} $Eb/N0$ για ρυθμό 9/10}
+\end{figure}
+
+\begin{figure}[h]
+\center{\includegraphics[width=1.0\linewidth]{matlab/full_BER.png}}
+\caption{Καμπύλες \en{BER vs} $Eb/N0$ για διαφορετικούς ρυθμούς}
+\end{figure}
+
+\begin{figure}[h]
+\center{\includegraphics[width=1.0\linewidth]{matlab/full_FER.png}}
+\caption{Καμπύλες \en{FER vs} $Eb/N0$ για διαφορετικούς ρυθμούς}
+\end{figure}
