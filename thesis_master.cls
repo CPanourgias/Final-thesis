@@ -17,7 +17,7 @@
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions
-\LoadClass[a4paper,11pt]{book}
+\LoadClass[a4paper,12pt]{book}
 
 
 \usepackage[greek]{babel}
