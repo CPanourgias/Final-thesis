@@ -1,18 +1,14 @@
-\chapter{\selectlanguage{greek}Συμπεράσματα και μελλοντικές επεκτάσεις}
+\chapter{\selectlanguage{greek}Mελλοντικές επεκτάσεις}
+Έχει ήδη αναφερθεί σε προηγούμενο κεφάλαιο, η έντονη επιδεκτικότητα για παραλληλοποίηση, όσον αφορά την αποκωδικοποίηση των \en{LDPC} και κατ'επέκταση των \en{RA} κωδίκων. Καθώς οι ασύρματες συσκευές μεταδίδουν και δέχονται δεδομένα υψηλού ρυθμού σε πραγματικό χρόνο, αυξάνεται ραγδαία η ανάγκη για ταχύτητα και αξιοπιστία στην επικοινωνία.
+
+Η χρήση των \en{LDPC} σε πολλά νέα πρότυπα (\en{DVB-S2, WiMAX (802.16e), Wifi (802.11n), 10 Gbit Ethernet (802.3an)}  κ.λ.π. \cite{falcao2011massively}, καθώς και σε πολλαπλούς ρυθμούς δεδομένων για τα διαφορετικά πρότυπα, έχουν κάνει ορατή τη δυσκολία για υλοποίηση \en{hardware}, καθώς η επεξεργασία βασικής ζώνης στο επίπεδο του φυσικού εξαρτήματος είναι πολυδάπανη σε εύρος ζώνης και επεξεργαστική ισχύ. 
+
+Αντ'αυτού, ο σχεδιασμός συστημάτων ψηφιακής τηλεπικοινωνίας υιοθετεί όλο και περισσότερο υλοποιήσεις σε \en{software}, μέσω της χρήσης \en{CPUs} ή/και \en{GPUs}, για την υλοποίηση των επικοινωνιακών προτοκόλλων \cite{park2011parallel}, \cite{abburi2011scalable}. Σχετική έρευνα, έχει δείξει τη διαφορά στη χρήση \en{GPU} σε σχέση με κυκλώματα \en{ASIC} για \en{LDPC} αποκωδικοποίση \cite{falcao2009gpus}.
 
 \section{Προσομοίωση σε \en{CUDA}}
-% Έχει ήδη αναφερθεί σε προηγούμενο κεφάλαιο, η έντονη επιδεκτικότητα για παραλληλοποίηση, όσον αφορά την αποκωδικοποίηση των \en{RA} κωδίκων. Οι τεχνολογίες ψηφιακής τηλεπικοινωνίας, έχουν γνωρίσει ραγδαία ανάπτυξη τα τελευταία χρόνια και οι προσπάθειες επικεντρώνονται στ
 
-% % Digital mobile communication technologies, such as next generation mobile communication and mobile TV, are
-% % rapidly advancing. Hardware designs to provide baseband processing of new protocol standards are being actively
-% % attempted, because of concurrently emerging multiple standards and diverse needs on device functions, hardware-
-% % only implementation may have reached a limit. To overcome this challenge, digital communication system designs
-% % are adopting software solutions that use central processing units or graphics processing units (GPUs) to implement
-% % communication protocols. In this article we propose a parallel software implementation of low density parity check
-% % decoding algorithms, and we use a multi-core processor and a GPU to achieve both flexibility and high
-% % performance. Specifically, we use OpenMP for parallelizing software on a multi-core processor and Compute
-% % Unified Device Architecture (CUDA) for parallel software running on a GPU. We process information on H-matrices
-% % using OpenMP pragmas on a multi-core processor and execute decoding algorithms in parallel using CUDA on a
-% % GPU. We evaluated the performance of the proposed implementation with respect to two different code rates for
-% % the China Multimedia Mobile Broadcasting (CMMB) standard, and we verified that the proposed implementation
-% % satisfies the CMMB bandwidth requirement.
+Η χρήση προγραμματισμού σε \en{GPU} προσφέρει υψηλή υπολογιστική ισχύ, καθώς οι μονάδες επεξεργασίας γραφικών αποκτούν ολοένα και καλύτερες επιδόσεις. Προς την κατεύθυνση αυτή, αξιοσημείωτο ενδιαφέρον παρουσιάζει ο προγραμματισμός με βάση την αρχιτεκτονική \en{Copmpute Unified Device Architecture (CUDA)} της εταιρίας \en{nVidia}.
+
+Σχετική έρευνα έχει υπάρξει αναφορικά με τη χρήση \en{GPU} για τη διαχείρηση του \en{SPA} και την εξαγωγή πληροφορίας από τις μετρικές \en{LLR} \cite{falcao2009parallel}. Ακόμη, υπάρχει προτεινόμενος τρόπος για την υλοποίηση \en{CUDA} για χρήση \en{LDPC} αποκωδικοποίησης \cite{falcao2011massively}, καθώς και υβριδική συνδυαστική χρήση \en{multicore CPU - GPU}, για την ενσωμάτωση πολλαπλών ρυθμών και τηλεπικοινωνιακών προτύπων \cite{park2011parallel}.
+
+Με βάση, λοιπόν, τα παραπάνω αποκτά ενδιαφέρον η μελέτη προς την κατεύθυνση της ταχύτερης υλοποίησης \en{RA} αποκωδικοποιητών κάνοντας χρήση της αρχιτεκτονικής \en{CUDA}, καθώς και η μέτρηση και παρουσίαση των επιδόσεων τους.
