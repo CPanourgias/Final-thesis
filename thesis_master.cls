@@ -159,7 +159,7 @@
 \newcommand{\ftpname}{\en{FTP}}
 
 % More Names
-\translator{Πτυχιακή Εργασία}
+\translator{Διπλωματική Εργασία}
 \institution{Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης}
 \department{Πολυτεχνική Σχολή}
 \division{Τμήμα Ηλεκτρολόγων Μηχανικών και Μηχανικών Η/Υ}
